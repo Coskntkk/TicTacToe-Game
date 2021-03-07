@@ -6,7 +6,7 @@
     # menu added
     # need to be improved: 
         # game explanation is.. a bit short.
-        # computer is silly af 
-        # draw option is not recognized yet.
+        # computer is silly af.
 # 07.03.21
         # pvp option added
+        # draw option is recognized.
