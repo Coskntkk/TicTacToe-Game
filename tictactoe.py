@@ -1,5 +1,5 @@
 import random
-# this is a simple tic-tac-toe game asd asd
+# this is a simple tic-tac-toe game
 # ----------------- GLOBAL VARIABLES ----------------- 
 
 # liste that is the map of tic-tac-toe
@@ -30,7 +30,7 @@ def maps(liste):
 
 # player movement 
 def playerMove(liste):
-    print("Player's turn.")
+    print("Player 1's turn.")
     row = int(input("Row: "))
     column = int(input("Column: "))
     if(liste[row][column] == "-"):
@@ -41,6 +41,18 @@ def playerMove(liste):
         playerMove(liste)
     print(maps(liste))
 
+# player2 movement
+def player2Move(liste):
+    print("Player 2's turn.")
+    row = int(input("Row: "))
+    column = int(input("Column: "))
+    if(liste[row][column] == "-"):
+        liste[row][column] = "O"
+    else:
+        print("Player can't move here.")
+        print("Try again.")
+        player2Move(liste)
+    print(maps(liste))
 
 # computer movement
 def computerMove(liste,playable):
@@ -82,7 +94,7 @@ def winCheck(liste):
         return False
 
 
-def game():
+def gamePvC():
     print("""Player is "X".""")
     print(maps(liste))
     while(winCheck(liste) == False):
@@ -97,37 +109,46 @@ def game():
             print("Computer won.")
             break
 
+def gamePvP():
+    print("""Player 1 is "X".""")
+    print("""Player 2 is "O".""")    
+    print(maps(liste))
+    while(winCheck(liste) == False):
+        playerMove(liste)
+        print("-------------------------------")
+        if(winCheck(liste) == True):
+            print("Player 1 won.")
+            break
+        player2Move(liste)
+        print("-------------------------------")
+        if(winCheck(liste) == True):
+            print("Player 2 won.")
+            break
+
 
 def main():
-    # 1 - Read Tic-Tac-Toe Rules
-    # 2 - Play Tic-Tac-Toe
-    print("Welcome to Tic-Tac-Toe Game! ")
-    print("Choose one:")
-    print("""
-    1 - Read Tic-Tac-Toe Rules
-    2 - Play Tic-Tac-Toe
-    """)
-
     choice = int(input())
-
-    while(choice != 1 and choice != 2):
-        print("enter 1 or 2")
-        choice = int(input())
-
     if(choice == 1):
         print("this is a game.")
         choice2 = input("wanna play? (y/n)")
         if(choice2 == "y" or choice2 == "Y"):
-            game()
-        else: 
-            print("your loss..")
-            return False
-
-
-    elif(choice == 2):
-        game()
+            main()
+        else:
+            main()
+    elif(choice == 2): 
+        gamePvC()
+    elif(choice == 3):
+        gamePvP()
         
-    
+# 1 - Read Tic-Tac-Toe Rules
+# 2 - Play Tic-Tac-Toe
+print("Welcome to Tic-Tac-Toe Game! ")
+print("Choose one:")
+print("""
+1 - Read Tic-Tac-Toe Rules
+2 - Play Tic-Tac-Toe against computer.
+3 - Play Tic-Tac-Toe against player.
+""")    
 main()
 
 
@@ -140,7 +161,8 @@ main()
         # game explanation is.. a bit short.
         # computer is silly af 
         # draw option is not recognized yet.
-
+# 07.03.21
+        # pvp option added
 
 
 # CREDITS: CAGLA & COSKUN 
