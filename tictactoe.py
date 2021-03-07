@@ -27,7 +27,6 @@ def maps(liste):
     """.format(liste[0][0],liste[0][1],liste[0][2],liste[1][0],liste[1][1],liste[1][2],liste[2][0],liste[2][1],liste[2][2])
     return map
 
-
 # player movement 
 def playerMove(liste):
     print("Player 1's turn.")
@@ -94,37 +93,56 @@ def winCheck(liste):
         return False
 
 # player vs computer mod
-def gamePvC():
+def gamePvC(liste):
     print("""Player is "X".""")
     print(maps(liste))
     print("-------------------------------")
+    pvcCount = 9
     while(winCheck(liste) == False):
         playerMove(liste)
+        pvcCount -= 1
         print("-------------------------------")
         if(winCheck(liste) == True):
             print("Player won.")
             break
+        if(pvcCount == 0):
+            print("Draw. Nobody won, nobody lost.")
+            break
         computerMove(liste,playable)
+        pvcCount -= 1
         print("-------------------------------")
         if(winCheck(liste) == True):
             print("Computer won.")
             break
+        if(pvcCount == 0):
+            print("Draw. Nobody won, nobody lost.")
+            break
 
 # player vs player mod
-def gamePvP():
+def gamePvP(liste):
     print("""Player 1 is "X".""")
     print("""Player 2 is "O".""")    
     print(maps(liste))
+    print("-------------------------------")
+    pvpCount = 9
     while(winCheck(liste) == False):
         playerMove(liste)
+        pvpCount -= 1
         print("-------------------------------")
         if(winCheck(liste) == True):
             print("Player 1 won.")
             break
+        if(pvpCount == 0):
+            print("Draw. Nobody won, nobody lost.")
+            break
         player2Move(liste)
+        pvpCount -= 1
         print("-------------------------------")
         if(winCheck(liste) == True):
             print("Player 2 won.")
+            break
+        if(pvpCount == 0):
+            print("Draw. Nobody won, nobody lost.")
             break
 
 # main menu function
@@ -145,9 +163,19 @@ def main():
         else:
             game_exit()
     elif(choice == 2): 
-        gamePvC()
+        liste = [
+        ["-","-","-"],
+        ["-","-","-"],
+        ["-","-","-"],
+        ]
+        gamePvC(liste)
     elif(choice == 3):
-        gamePvP()
+        liste = [
+        ["-","-","-"],
+        ["-","-","-"],
+        ["-","-","-"],
+        ]
+        gamePvP(liste)
     play_again = input("Do you want to play again? (Y/N): ")
     if(play_again == "Y" or play_again == "y"):
         main()
@@ -159,10 +187,7 @@ def game_exit():
         
 # 1 - Read Tic-Tac-Toe Rules
 # 2 - Play Tic-Tac-Toe
-   
 main()
-
-
 
 # UPDATES -->
 # 06.03.21
