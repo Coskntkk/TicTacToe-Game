@@ -93,10 +93,11 @@ def winCheck(liste):
     else:
         return False
 
-
+# player vs computer mod
 def gamePvC():
     print("""Player is "X".""")
     print(maps(liste))
+    print("-------------------------------")
     while(winCheck(liste) == False):
         playerMove(liste)
         print("-------------------------------")
@@ -109,6 +110,7 @@ def gamePvC():
             print("Computer won.")
             break
 
+# player vs player mod
 def gamePvP():
     print("""Player 1 is "X".""")
     print("""Player 2 is "O".""")    
@@ -125,30 +127,39 @@ def gamePvP():
             print("Player 2 won.")
             break
 
-
+# main menu function
 def main():
-    choice = int(input())
+    print("Welcome to Tic-Tac-Toe Game! ")
+    print("Choose one:")
+    print("""
+1 - Read Tic-Tac-Toe Rules
+2 - Play Tic-Tac-Toe against computer.
+3 - Play Tic-Tac-Toe against player.
+""") 
+    choice = int(input(">>>"))
     if(choice == 1):
         print("this is a game.")
         choice2 = input("wanna play? (y/n)")
         if(choice2 == "y" or choice2 == "Y"):
             main()
         else:
-            main()
+            game_exit()
     elif(choice == 2): 
         gamePvC()
     elif(choice == 3):
         gamePvP()
+    play_again = input("Do you want to play again? (Y/N): ")
+    if(play_again == "Y" or play_again == "y"):
+        main()
+    elif(play_again == "N" or play_again == "n"):
+        game_exit()
+
+def game_exit():
+    print("Bye...")
         
 # 1 - Read Tic-Tac-Toe Rules
 # 2 - Play Tic-Tac-Toe
-print("Welcome to Tic-Tac-Toe Game! ")
-print("Choose one:")
-print("""
-1 - Read Tic-Tac-Toe Rules
-2 - Play Tic-Tac-Toe against computer.
-3 - Play Tic-Tac-Toe against player.
-""")    
+   
 main()
 
 
