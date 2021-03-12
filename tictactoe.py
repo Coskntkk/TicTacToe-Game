@@ -1,4 +1,4 @@
-import random
+import random,tictactoeai,time
 # this is a simple tic-tac-toe game
 # ----------------- GLOBAL VARIABLES ----------------- 
 
@@ -55,16 +55,7 @@ def player2Move(liste):
 
 # computer movement
 def computerMove(liste,playable):
-    playable = []
-    for i in range(3):
-        for j in range(3):
-            if(liste[i][j] == "-"):
-                playable.append([i,j])
-    cp = int(random.random()*(len(playable))) #sayı
-    oPut = playable[cp]
-    row = oPut[0]
-    column = oPut[1] 
-    liste[row][column] = "O"
+    tictactoeai.computerAI(liste)
 
     print("Computer moved")
     print(maps(liste))
@@ -92,6 +83,16 @@ def winCheck(liste):
     else:
         return False
 
+# function for waiting
+def waiting():
+    print("Computer moving")
+    print("...")
+    time.sleep(0.75)
+    print("..")
+    time.sleep(0.75)
+    print(".")
+    time.sleep(0.75)
+
 # player vs computer mod
 def gamePvC(liste):
     print("""Player is "X".""")
@@ -108,7 +109,8 @@ def gamePvC(liste):
         if(pvcCount == 0):
             print("Draw. Nobody won, nobody lost.")
             break
-        computerMove(liste,playable)
+        waiting()
+        computerMove(liste,playable) ###############################################
         pvcCount -= 1
         print("-------------------------------")
         if(winCheck(liste) == True):
