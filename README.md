@@ -1,5 +1,6 @@
 # Tic Tac Toe
- A tic-tac-toe game made with python
+ A tic-tac-toe game made with python with a learning AI.
+ When played, if player wons the game, AI deletes it's last move from its "moves pool".
 
 # UPDATES -->
 # 06.03.21
