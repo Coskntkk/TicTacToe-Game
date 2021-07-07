@@ -3,7 +3,7 @@
  When played, if player wons the game, AI deletes it's last move from its "moves pool".
 
 # TO COME -->
-# Moves will be stored in CSV instead of .txt
+    # Moves will be stored in CSV instead of .txt
 
 # UPDATES -->
 # 06.03.21
