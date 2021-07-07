@@ -19,3 +19,9 @@
     # AI constructed.
         # computer is not silly anymore...
         # computer tries to win and to avoid losing
+
+# 07.07.21
+    # CvC mode constructed for AI
+    # Real AI constructed.
+        # computer chooses its moves from a list of all possible moves
+        # computer deletes the losing move when loses a game
