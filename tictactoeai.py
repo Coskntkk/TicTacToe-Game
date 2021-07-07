@@ -1,7 +1,46 @@
 import random
 ### function for computer to play specific moves
-def computerAI(liste):
-    # array for playable areas
+
+
+def readMoves(mapCode):
+    with open("playableMoves.txt", "r") as file:
+        liste = file.read().splitlines()
+    moveList = []
+    for i in liste:
+        moveList.append(i.split("-"))
+
+    returnList = []
+    for j in moveList:
+        if j[0] == mapCode:
+            returnList.append(j)
+
+    return returnList
+
+
+def removeFromList(moveList):
+    # Removes given move from list of moves.
+    move = "-".join(moveList)
+
+    with open("playableMoves.txt", "r+") as file:
+        liste = file.read().splitlines()
+
+    index = None
+    found = 0
+    for i in range(len(liste)):
+        if liste[i] == move:
+            index = i
+            found += 1
+
+    if found == 1:
+        liste.pop(index)
+        with open("playableMoves.txt", "r+") as file:
+            file.truncate(0)
+            for i in liste:
+                file.writelines(i + "\n")
+
+
+def computerAI(coor, symbol):
+    """    # array for playable areas
     playable = []
     for i in range(3):
         for j in range(3):
@@ -217,5 +256,22 @@ def computerAI(liste):
         cp = int(random.random()*(len(playable))) #sayı
         oPut = playable[cp]
         row = oPut[0]
-        column = oPut[1] 
-        liste[row][column] = "O"
+        column = oPut[1]
+        liste[row][column] = "O"""
+
+    mapCodeList = []
+    for i in range(3):
+        for j in range(3):
+            mapCodeList.append(coor[i][j])
+    mapCode = "".join(mapCodeList)
+
+    playableMovesList = readMoves(mapCode)
+    print(playableMovesList)
+
+    lastList = []
+    for k in playableMovesList:
+        if k[2] == symbol:
+            lastList.append(k)
+
+    move = random.choice(lastList)
+    return move
