@@ -2,6 +2,9 @@
  A tic-tac-toe game made with python with a learning AI.
  When played, if player wons the game, AI deletes it's last move from its "moves pool".
 
+# TO COME -->
+# Moves will be stored in CSV instead of .txt
+
 # UPDATES -->
 # 06.03.21
     # simple win mechanic is implemented.
