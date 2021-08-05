@@ -29,3 +29,8 @@
     # Real AI constructed.
         # computer chooses its moves from a list of all possible moves
         # computer deletes the losing move when loses a game
+
+# 05.08.21
+    # CvC mode removed
+    # Real AI removed
+    # CvC mode and RealAI will be a diffrent repository
