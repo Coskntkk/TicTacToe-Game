@@ -1,277 +1,225 @@
-import random
+from random import choice
 ### function for computer to play specific moves
 
 
-def readMoves(mapCode):
-    with open("playableMoves.txt", "r") as file:
-        liste = file.read().splitlines()
-    moveList = []
-    for i in liste:
-        moveList.append(i.split("-"))
+def computerAI(liste, side):
+    opposite = ""
+    empty = "-"
+    if side == "O":
+        opposite = "X"
+    elif side == "X":
+        opposite = "O"
 
-    returnList = []
-    for j in moveList:
-        if j[0] == mapCode:
-            returnList.append(j)
-
-    return returnList
-
-
-def removeFromList(moveList):
-    # Removes given move from list of moves.
-    move = "-".join(moveList)
-
-    with open("playableMoves.txt", "r+") as file:
-        liste = file.read().splitlines()
-
-    index = None
-    found = 0
-    for i in range(len(liste)):
-        if liste[i] == move:
-            index = i
-            found += 1
-
-    if found == 1:
-        liste.pop(index)
-        with open("playableMoves.txt", "r+") as file:
-            file.truncate(0)
-            for i in liste:
-                file.writelines(i + "\n")
-
-
-def computerAI(coor, symbol):
-    """    # array for playable areas
-    playable = []
-    for i in range(3):
-        for j in range(3):
-            if(liste[i][j] == "-"):
-                playable.append([i,j])
-
-    ################################### put 3rd "O" if there are 2 ###################################
+    ################################### put 3rd side if there are 2 ###################################
     ##### rows #####
     # row 0 #
-    if liste[0][0] == "O" and liste[0][1] == "O" and liste[0][2] == "-":
-        liste[0][2] = "O"
-    elif liste[0][0] == "O" and liste[0][2] == "O" and liste[0][1] == "-":
-        liste[0][1] = "O"
-    elif liste[0][1] == "O" and liste[0][2] == "O" and liste[0][0] == "-":
-        liste[0][0] = "O"
+    if liste[0][0] == side and liste[0][1] == side and liste[0][2] == empty:
+        liste[0][2] = side
+    elif liste[0][0] == side and liste[0][2] == side and liste[0][1] == empty:
+        liste[0][1] = side
+    elif liste[0][1] == side and liste[0][2] == side and liste[0][0] == empty:
+        liste[0][0] = side
 
     # row 1 #
-    elif liste[1][0] == "O" and liste[1][1] == "O" and liste[1][2] == "-":
-        liste[1][2] = "O"
-    elif liste[1][0] == "O" and liste[1][2] == "O" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "O" and liste[1][2] == "O" and liste[1][0] == "-":
-        liste[1][0] = "O"
+    elif liste[1][0] == side and liste[1][1] == side and liste[1][2] == empty:
+        liste[1][2] = side
+    elif liste[1][0] == side and liste[1][2] == side and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == side and liste[1][2] == side and liste[1][0] == empty:
+        liste[1][0] = side
 
     # row 2 #
-    elif liste[2][0] == "O" and liste[2][1] == "O" and liste[2][2] == "-":
-        liste[2][2] = "O"
-    elif liste[2][0] == "O" and liste[2][2] == "O" and liste[2][1] == "-":
-        liste[2][1] = "O"
-    elif liste[2][1] == "O" and liste[2][2] == "O" and liste[2][0] == "-":
-        liste[2][0] = "O"
+    elif liste[2][0] == side and liste[2][1] == side and liste[2][2] == empty:
+        liste[2][2] = side
+    elif liste[2][0] == side and liste[2][2] == side and liste[2][1] == empty:
+        liste[2][1] = side
+    elif liste[2][1] == side and liste[2][2] == side and liste[2][0] == empty:
+        liste[2][0] = side
 
     ##### columns #####
     # column 0 #
-    elif liste[0][0] == "O" and liste[1][0] == "O" and liste[2][0] == "-":
-        liste[2][0] = "O"
-    elif liste[0][0] == "O" and liste[2][0] == "O" and liste[1][0] == "-":
-        liste[1][0] = "O"
-    elif liste[1][0] == "O" and liste[2][0] == "O" and liste[0][0] == "-":
-        liste[0][0] = "O"
+    elif liste[0][0] == side and liste[1][0] == side and liste[2][0] == empty:
+        liste[2][0] = side
+    elif liste[0][0] == side and liste[2][0] == side and liste[1][0] == empty:
+        liste[1][0] = side
+    elif liste[1][0] == side and liste[2][0] == side and liste[0][0] == empty:
+        liste[0][0] = side
 
     # column 1 #
-    elif liste[0][1] == "O" and liste[1][1] == "O" and liste[2][1] == "-":
-        liste[2][1] = "O"
-    elif liste[0][1] == "O" and liste[2][1] == "O" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "O" and liste[2][1] == "O" and liste[0][1] == "-":
-        liste[0][1] = "O"
+    elif liste[0][1] == side and liste[1][1] == side and liste[2][1] == empty:
+        liste[2][1] = side
+    elif liste[0][1] == side and liste[2][1] == side and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == side and liste[2][1] == side and liste[0][1] == empty:
+        liste[0][1] = side
 
     # column 2 #
-    elif liste[0][2] == "O" and liste[1][2] == "O" and liste[2][2] == "-":
-        liste[2][2] = "O"
-    elif liste[0][2] == "O" and liste[2][2] == "O" and liste[1][2] == "-":
-        liste[1][2] = "O"
-    elif liste[1][2] == "O" and liste[2][2] == "O" and liste[0][2] == "-":
-        liste[0][2] = "O"
+    elif liste[0][2] == side and liste[1][2] == side and liste[2][2] == empty:
+        liste[2][2] = side
+    elif liste[0][2] == side and liste[2][2] == side and liste[1][2] == empty:
+        liste[1][2] = side
+    elif liste[1][2] == side and liste[2][2] == side and liste[0][2] == empty:
+        liste[0][2] = side
 
     ##### diagonals #####
     # topleft to downright #
-    elif liste[0][0] == "0" and liste[1][1] == "0" and liste[2][2] == "-":
-        liste[2][2] = "O"
-    elif liste[0][0] == "0" and liste[2][2] == "0" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "O" and liste[2][2] == "O" and liste[0][0] == "-":
-        liste[0][0] = "O"
+    elif liste[0][0] == side and liste[1][1] == side and liste[2][2] == empty:
+        liste[2][2] = side
+    elif liste[0][0] == side and liste[2][2] == side and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == side and liste[2][2] == side and liste[0][0] == empty:
+        liste[0][0] = side
 
     # downleft to topright #
-    elif liste[0][2] == "0" and liste[1][1] == "0" and liste[2][0] == "-":
-        liste[2][0] = "O"
-    elif liste[0][2] == "0" and liste[2][0] == "0" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "O" and liste[2][0] == "O" and liste[0][2] == "-":
-        liste[0][2] = "O"
+    elif liste[0][2] == side and liste[1][1] == side and liste[2][0] == empty:
+        liste[2][0] = side
+    elif liste[0][2] == side and liste[2][0] == side and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == side and liste[2][0] == side and liste[0][2] == empty:
+        liste[0][2] = side
 
-    ################################### put "O" if there are 2 "X"s ###################################
+    ################################### put side if there are 2 opposites ###################################
     ##### rows #####
     # row 0 #
-    elif liste[0][0] == "X" and liste[0][1] == "X" and liste[0][2] == "-":
-        liste[0][2] = "O"
-    elif liste[0][0] == "X" and liste[0][2] == "X" and liste[0][1] == "-":
-        liste[0][1] = "O"
-    elif liste[0][1] == "X" and liste[0][2] == "X" and liste[0][0] == "-":
-        liste[0][0] = "O"
+    elif liste[0][0] == opposite and liste[0][1] == opposite and liste[0][2] == empty:
+        liste[0][2] = side
+    elif liste[0][0] == opposite and liste[0][2] == opposite and liste[0][1] == empty:
+        liste[0][1] = side
+    elif liste[0][1] == opposite and liste[0][2] == opposite and liste[0][0] == empty:
+        liste[0][0] = side
 
     # row 1 #
-    elif liste[1][0] == "X" and liste[1][1] == "X" and liste[1][2] == "-":
-        liste[1][2] = "O"
-    elif liste[1][0] == "X" and liste[1][2] == "X" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "X" and liste[1][2] == "X" and liste[1][0] == "-":
-        liste[1][0] = "O"
+    elif liste[1][0] == opposite and liste[1][1] == opposite and liste[1][2] == empty:
+        liste[1][2] = side
+    elif liste[1][0] == opposite and liste[1][2] == opposite and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == opposite and liste[1][2] == opposite and liste[1][0] == empty:
+        liste[1][0] = side
 
     # row 2 #
-    elif liste[2][0] == "X" and liste[2][1] == "X" and liste[2][2] == "-":
-        liste[2][2] = "O"
-    elif liste[2][0] == "X" and liste[2][2] == "X" and liste[2][1] == "-":
-        liste[2][1] = "O"
-    elif liste[2][1] == "X" and liste[2][2] == "X" and liste[2][0] == "-":
-        liste[2][0] = "O"
+    elif liste[2][0] == opposite and liste[2][1] == opposite and liste[2][2] == empty:
+        liste[2][2] = side
+    elif liste[2][0] == opposite and liste[2][2] == opposite and liste[2][1] == empty:
+        liste[2][1] = side
+    elif liste[2][1] == opposite and liste[2][2] == opposite and liste[2][0] == empty:
+        liste[2][0] = side
 
     ##### columns #####
     # column 0 #
-    elif liste[0][0] == "X" and liste[1][0] == "X" and liste[2][0] == "-":
-        liste[2][0] = "O"
-    elif liste[0][0] == "X" and liste[2][0] == "X" and liste[1][0] == "-":
-        liste[1][0] = "O"
-    elif liste[1][0] == "X" and liste[2][0] == "X" and liste[0][0] == "-":
-        liste[0][0] = "O"
+    elif liste[0][0] == opposite and liste[1][0] == opposite and liste[2][0] == empty:
+        liste[2][0] = side
+    elif liste[0][0] == opposite and liste[2][0] == opposite and liste[1][0] == empty:
+        liste[1][0] = side
+    elif liste[1][0] == opposite and liste[2][0] == opposite and liste[0][0] == empty:
+        liste[0][0] = side
 
     # column 1 #
-    elif liste[0][1] == "X" and liste[1][1] == "X" and liste[2][1] == "-":
-        liste[2][1] = "O"
-    elif liste[0][1] == "X" and liste[2][1] == "X" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "X" and liste[2][1] == "X" and liste[0][1] == "-":
-        liste[0][1] = "O"
+    elif liste[0][1] == opposite and liste[1][1] == opposite and liste[2][1] == empty:
+        liste[2][1] = side
+    elif liste[0][1] == opposite and liste[2][1] == opposite and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == opposite and liste[2][1] == opposite and liste[0][1] == empty:
+        liste[0][1] = side
 
     # column 2 #
-    elif liste[0][2] == "X" and liste[1][2] == "X" and liste[2][2] == "-":
-        liste[2][2] = "O"
-    elif liste[0][2] == "X" and liste[2][2] == "X" and liste[1][2] == "-":
-        liste[1][2] = "O"
-    elif liste[1][2] == "X" and liste[2][2] == "X" and liste[0][2] == "-":
-        liste[0][2] = "O"
+    elif liste[0][2] == opposite and liste[1][2] == opposite and liste[2][2] == empty:
+        liste[2][2] = side
+    elif liste[0][2] == opposite and liste[2][2] == opposite and liste[1][2] == empty:
+        liste[1][2] = side
+    elif liste[1][2] == opposite and liste[2][2] == opposite and liste[0][2] == empty:
+        liste[0][2] = side
 
     ##### diagonals #####
     # topleft to downright #
-    elif liste[0][0] == "X" and liste[1][1] == "X" and liste[2][2] == "-":
-        liste[2][2] = "O"
-    elif liste[0][0] == "X" and liste[2][2] == "X" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "X" and liste[2][2] == "X" and liste[0][0] == "-":
-        liste[0][0] = "O"
+    elif liste[0][0] == opposite and liste[1][1] == opposite and liste[2][2] == empty:
+        liste[2][2] = side
+    elif liste[0][0] == opposite and liste[2][2] == opposite and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == opposite and liste[2][2] == opposite and liste[0][0] == empty:
+        liste[0][0] = side
 
     # downleft to topright #
-    elif liste[0][2] == "X" and liste[1][1] == "X" and liste[2][0] == "-":
-        liste[2][0] = "O"
-    elif liste[0][2] == "X" and liste[2][0] == "X" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "X" and liste[2][0] == "X" and liste[0][2] == "-":
-        liste[0][2] = "O"
+    elif liste[0][2] == opposite and liste[1][1] == opposite and liste[2][0] == empty:
+        liste[2][0] = side
+    elif liste[0][2] == opposite and liste[2][0] == opposite and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == opposite and liste[2][0] == opposite and liste[0][2] == empty:
+        liste[0][2] = side
 
-    ##################################### put "O" if there are 1 ######################################
+    ##################################### put side if there are 1 ######################################
     ##### rows #####
     # row 0 #
-    elif liste[0][0] == "O" or liste[0][1] == "O" and liste[0][2] == "-":
-        liste[0][2] = "O"
-    elif liste[0][0] == "O" or liste[0][2] == "O" and liste[0][1] == "-":
-        liste[0][1] = "O"
-    elif liste[0][1] == "O" or liste[0][2] == "O" and liste[0][0] == "-":
-        liste[0][0] = "O"
+    elif liste[0][0] == side or liste[0][1] == side and liste[0][2] == empty:
+        liste[0][2] = side
+    elif liste[0][0] == side or liste[0][2] == side and liste[0][1] == empty:
+        liste[0][1] = side
+    elif liste[0][1] == side or liste[0][2] == side and liste[0][0] == empty:
+        liste[0][0] = side
 
     # row 1 #
-    elif liste[1][0] == "O" or liste[1][1] == "O" and liste[1][2] == "-":
-        liste[1][2] = "O"
-    elif liste[1][0] == "O" or liste[1][2] == "O" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "O" or liste[1][2] == "O" and liste[1][0] == "-":
-        liste[1][0] = "O"
+    elif liste[1][0] == side or liste[1][1] == side and liste[1][2] == empty:
+        liste[1][2] = side
+    elif liste[1][0] == side or liste[1][2] == side and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == side or liste[1][2] == side and liste[1][0] == empty:
+        liste[1][0] = side
 
     # row 2 #
-    elif liste[2][0] == "O" or liste[2][1] == "O" and liste[2][2] == "-":
-        liste[2][2] = "O"
-    elif liste[2][0] == "O" or liste[2][2] == "O" and liste[2][1] == "-":
-        liste[2][1] = "O"
-    elif liste[2][1] == "O" or liste[2][2] == "O" and liste[2][0] == "-":
-        liste[2][0] = "O"
+    elif liste[2][0] == side or liste[2][1] == side and liste[2][2] == empty:
+        liste[2][2] = side
+    elif liste[2][0] == side or liste[2][2] == side and liste[2][1] == empty:
+        liste[2][1] = side
+    elif liste[2][1] == side or liste[2][2] == side and liste[2][0] == empty:
+        liste[2][0] = side
 
     ##### columns #####
     # column 0 #
-    elif liste[0][0] == "O" or liste[1][0] == "O" and liste[2][0] == "-":
-        liste[2][0] = "O"
-    elif liste[0][0] == "O" or liste[2][0] == "O" and liste[1][0] == "-":
-        liste[1][0] = "O"
-    elif liste[1][0] == "O" or liste[2][0] == "O" and liste[0][0] == "-":
-        liste[0][0] = "O"
+    elif liste[0][0] == side or liste[1][0] == side and liste[2][0] == empty:
+        liste[2][0] = side
+    elif liste[0][0] == side or liste[2][0] == side and liste[1][0] == empty:
+        liste[1][0] = side
+    elif liste[1][0] == side or liste[2][0] == side and liste[0][0] == empty:
+        liste[0][0] = side
 
     # column 1 #
-    elif liste[0][1] == "O" or liste[1][1] == "O" and liste[2][1] == "-":
-        liste[2][1] = "O"
-    elif liste[0][1] == "O" or liste[2][1] == "O" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "O" or liste[2][1] == "O" and liste[0][1] == "-":
-        liste[0][1] = "O"
+    elif liste[0][1] == side or liste[1][1] == side and liste[2][1] == empty:
+        liste[2][1] = side
+    elif liste[0][1] == side or liste[2][1] == side and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == side or liste[2][1] == side and liste[0][1] == empty:
+        liste[0][1] = side
 
     # column 2 #
-    elif liste[0][2] == "O" or liste[1][2] == "O" and liste[2][2] == "-":
-        liste[2][2] = "O"
-    elif liste[0][2] == "O" or liste[2][2] == "O" and liste[1][2] == "-":
-        liste[1][2] = "O"
-    elif liste[1][2] == "O" or liste[2][2] == "O" and liste[0][2] == "-":
-        liste[0][2] = "O"
+    elif liste[0][2] == side or liste[1][2] == side and liste[2][2] == empty:
+        liste[2][2] = side
+    elif liste[0][2] == side or liste[2][2] == side and liste[1][2] == empty:
+        liste[1][2] = side
+    elif liste[1][2] == side or liste[2][2] == side and liste[0][2] == empty:
+        liste[0][2] = side
 
     ##### diagonals #####
     # topleft to downright #
-    elif liste[0][0] == "0" or liste[1][1] == "0" and liste[2][2] == "-":
-        liste[2][2] = "O"
-    elif liste[0][0] == "0" or liste[2][2] == "0" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "O" or liste[2][2] == "O" and liste[0][0] == "-":
-        liste[0][0] = "O"
+    elif liste[0][0] == side or liste[1][1] == side and liste[2][2] == empty:
+        liste[2][2] = side
+    elif liste[0][0] == side or liste[2][2] == side and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == side or liste[2][2] == side and liste[0][0] == empty:
+        liste[0][0] = side
 
     # downleft to topright #
-    elif liste[0][2] == "0" or liste[1][1] == "0" and liste[2][0] == "-":
-        liste[2][0] = "O"
-    elif liste[0][2] == "0" or liste[2][0] == "0" and liste[1][1] == "-":
-        liste[1][1] = "O"
-    elif liste[1][1] == "O" or liste[2][0] == "O" and liste[0][2] == "-":
-        liste[0][2] = "O"
+    elif liste[0][2] == side or liste[1][1] == side and liste[2][0] == empty:
+        liste[2][0] = side
+    elif liste[0][2] == side or liste[2][0] == side and liste[1][1] == empty:
+        liste[1][1] = side
+    elif liste[1][1] == side or liste[2][0] == side and liste[0][2] == empty:
+        liste[0][2] = side
 
     ################### play random playable area if there are no other options #######################
     else:
-        cp = int(random.random()*(len(playable))) #sayı
-        oPut = playable[cp]
-        row = oPut[0]
-        column = oPut[1]
-        liste[row][column] = "O"""
-
-    mapCodeList = []
-    for i in range(3):
-        for j in range(3):
-            mapCodeList.append(coor[i][j])
-    mapCode = "".join(mapCodeList)
-
-    playableMovesList = readMoves(mapCode)
-    print(playableMovesList)
-
-    lastList = []
-    for k in playableMovesList:
-        if k[2] == symbol:
-            lastList.append(k)
-
-    move = random.choice(lastList)
-    return move
+        playable = []
+        for i in range(3):
+            for j in range(3):
+                if liste[i][j] == empty:
+                    playable.append([i, j])
+        move = choice(playable)
+        liste[move[0]][move[1]] = side

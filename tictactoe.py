@@ -2,13 +2,12 @@ import tictactoeai
 import time
 
 # this is a simple tic-tac-toe game
-# ----------------- GLOBAL VARIABLES ----------------- 
-
+# ----------------- GLOBAL VARIABLES -----------------
 # liste that is the map of tic-tac-toe
 liste = [
-    [" ", " ", " "],
-    [" ", " ", " "],
-    [" ", " ", " "],
+    ["-", "-", "-"],
+    ["-", "-", "-"],
+    ["-", "-", "-"],
 ]
 
 # empty areas on map
@@ -29,53 +28,33 @@ def maps():
     1 | {} | {} | {} 
     --+---+---+---+
     2 | {} | {} | {} 
-    """.format(liste[0][0], liste[0][1], liste[0][2], liste[1][0], liste[1][1], liste[1][2], liste[2][0], liste[2][1], liste[2][2])
+    """.format(liste[0][0], liste[0][1], liste[0][2], liste[1][0], liste[1][1], liste[1][2], liste[2][0], liste[2][1],
+               liste[2][2])
     print(board)
 
 
-# player movement 
-def playerMove():
+# player movement
+def playerMove(playerNum, playerSymbol):
     global liste
-    print(liste)
 
-    print("Player 1's turn.")
+    print(f"Player {playerNum}'s turn.")
     row = int(input("Row: "))
     column = int(input("Column: "))
     if liste[row][column] == " ":
-        liste[row][column] = "X"
+        liste[row][column] = playerSymbol
     else:
         print("Player can't move here.")
         print("Try again.")
-        playerMove()
-    maps()
-
-
-# player2 movement
-def player2Move():
-    global liste
-
-    print("Player 2's turn.")
-    row = int(input("Row: "))
-    column = int(input("Column: "))
-    if liste[row][column] == " ":
-        liste[row][column] = "O"
-    else:
-        print("Player can't move here.")
-        print("Try again.")
-        player2Move()
+        playerMove(playerNum, playerSymbol)
     maps()
 
 
 # computer movement
 def computerMove(side):
     global liste
-    move = tictactoeai.computerAI(liste, side)
-    liste[int(move[1][0])][int(move[1][1])] = move[2]
-
+    tictactoeai.computerAI(liste, side)
     print("Computer moved")
     maps()
-
-    return move
 
 
 # function to check if there is any win situation
@@ -123,7 +102,7 @@ def gamePvC():
     print("-------------------------------")
     pvcCount = 9
     while True:
-        playerMove()
+        playerMove(1, "X")
         pvcCount -= 1
         print("-------------------------------")
         if winCheck():
@@ -144,47 +123,6 @@ def gamePvC():
             break
 
 
-# computer vs computer mod
-def gameCvC():
-    global liste
-
-    print("""Computer 1 is "X".""")
-    print("""Computer 2 is "O".""")
-    maps()
-    print("-------------------------------")
-    pvcCount = 9
-
-    playedMoves = []
-
-    while True:
-        playedMoves.append(computerMove("X"))
-        pvcCount -= 1
-        print("-------------------------------")
-        if winCheck():
-            print("Player won.")
-            print(playedMoves)
-            tictactoeai.removeFromList(playedMoves[-2])
-            break
-        if pvcCount == 0:
-            print("Draw. Nobody won, nobody lost.")
-            break
-        #waiting()
-
-        playedMoves.append(computerMove("O"))  # ##############################################
-        pvcCount -= 1
-        print("-------------------------------")
-        if winCheck():
-            print("Computer won.")
-            print(playedMoves)
-            tictactoeai.removeFromList(playedMoves[-2])
-            break
-        if pvcCount == 0:
-            print("Draw. Nobody won, nobody lost.")
-            break
-        #waiting()
-
-
-
 # player vs player mod
 def gamePvP():
     global liste
@@ -195,7 +133,7 @@ def gamePvP():
     print("-------------------------------")
     pvpCount = 9
     while not winCheck():
-        playerMove()
+        playerMove(1, "X")
         pvpCount -= 1
         print("-------------------------------")
         if winCheck():
@@ -204,7 +142,7 @@ def gamePvP():
         if pvpCount == 0:
             print("Draw. Nobody won, nobody lost.")
             break
-        player2Move()
+        playerMove(2, "O")
         pvpCount -= 1
         print("-------------------------------")
         if winCheck():
@@ -219,14 +157,13 @@ def gamePvP():
 def main():
     global liste
 
-    """print("Welcome to Tic-Tac-Toe Game! ")
+    print("Welcome to Tic-Tac-Toe Game! ")
     print("Choose one:")
-    print(
+    print("""
 1 - Read Tic-Tac-Toe Rules
 2 - Play Tic-Tac-Toe against computer.
 3 - Play Tic-Tac-Toe against player.
-4 - Play Tic-Tac-Toe computer vs computer.
-)
+""")
     choice = int(input(">>>"))
     if choice == 1:
         print("this is a game.")
@@ -237,32 +174,23 @@ def main():
             game_exit()
     elif choice == 2:
         liste = [
-            [" ", " ", " "],
-            [" ", " ", " "],
-            [" ", " ", " "],
+            ["-", "-", "-"],
+            ["-", "-", "-"],
+            ["-", "-", "-"],
         ]
         gamePvC()
     elif choice == 3:
         liste = [
-            [" ", " ", " "],
-            [" ", " ", " "],
-            [" ", " ", " "],
+            ["-", "-", "-"],
+            ["-", "-", "-"],
+            ["-", "-", "-"],
         ]
         gamePvP()
-    elif choice == 4:
-        gameCvC()
     play_again = input("Do you want to play again? (Y/N): ")
     if play_again == "Y" or play_again == "y":
         main()
     elif play_again == "N" or play_again == "n":
-        game_exit()"""
-    for i in range(50):
-        liste = [
-            [" ", " ", " "],
-            [" ", " ", " "],
-            [" ", " ", " "],
-        ]
-        gameCvC()
+        game_exit()
 
 
 def game_exit():
@@ -283,5 +211,3 @@ main()
 # 07.03.21
 # pvp option added
 # draw option is recognized.
-
-# CREDITS: CAGLA & COSKUN
